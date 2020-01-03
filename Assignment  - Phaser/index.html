@@ -36,7 +36,7 @@
         this.load.image('ground2', 'assets/platform2.png');
         this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
-        this.load.spritesheet('car', 'assets/car.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('car', 'assets/car.png', { frameWidth: 256, frameHeight: 256 });
     }
 
     var platforms
@@ -59,7 +59,37 @@
         platforms.create(492, 480, 'ground').setScale(0.5,0.5);
         platforms.create(584, 420, 'ground2').setScale(0.5,0.3)
         platforms.create(400, 80, 'ground').setScale(0.8,1.5);
-        
+
+        player = this.physics.add.sprite(100, 450, 'car').setScale(0.2,0.2);
+
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+
+        this.anims.create({
+            key: 'left',
+            frameRate: 4,
+            frames: [ { key: 'car', frame: 0 } ],
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'up',
+            frames: [ { key: 'car', frame: 1 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'down',
+            frames: [ { key: 'car', frame: 2 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'right',
+            frames: [ { key: 'car', frame: 3 } ],
+            frameRate: 10,
+            repeat: -1
+        });
     }
 
     function update ()
