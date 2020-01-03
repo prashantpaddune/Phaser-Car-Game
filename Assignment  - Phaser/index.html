@@ -11,8 +11,15 @@
 
     var config = {
         type: Phaser.AUTO,
-        width: 1350,
+        width: 680,
         height: 580,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 300 },
+                debug: false
+            }
+        },
         scene: {
             preload: preload,
             create: create,
@@ -26,14 +33,33 @@
     {
         this.load.image('sky', 'assets/sky.png');
         this.load.image('ground', 'assets/platform.png');
+        this.load.image('ground2', 'assets/platform2.png');
         this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('car', 'assets/car.png', { frameWidth: 32, frameHeight: 48 });
     }
 
+    var platforms
+    var player;
+
     function create ()
     {
-        this.add.image(400, 300, 'sky').setScale(2.5);
+        this.add.image(400, 300, 'sky');
+
+        platforms = this.physics.add.staticGroup();
+
+        platforms.create(300, 650, 'ground2').setScale(0.5,2);
+        platforms.create(200, 480, 'ground').setScale(0.5,0.5);
+        platforms.create(50, 380, 'ground').setScale(0.5,0.5);
+        platforms.create(200, 280, 'ground').setScale(0.5,0.5);
+
+        platforms.create(50, 180, 'ground').setScale(2.2,0.5);
+        platforms.create(482, 300, 'ground2').setScale(0.5,0.6)
+        platforms.create(400, 420, 'ground2').setScale(0.5,0.3)
+        platforms.create(492, 480, 'ground').setScale(0.5,0.5);
+        platforms.create(584, 420, 'ground2').setScale(0.5,0.3)
+        platforms.create(400, 80, 'ground').setScale(0.8,1.5);
+        
     }
 
     function update ()
