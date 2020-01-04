@@ -39,8 +39,9 @@
         this.load.spritesheet('car', 'assets/car.png', { frameWidth: 256, frameHeight: 256 });
     }
 
-    var platforms
+    var platforms;
     var player;
+    var cursors;
 
     function create ()
     {
@@ -62,7 +63,6 @@
 
         player = this.physics.add.sprite(100, 450, 'car').setScale(0.2,0.2);
 
-        player.setBounce(0.2);
         player.setCollideWorldBounds(true);
 
         this.anims.create({
@@ -91,13 +91,39 @@
             repeat: -1
         });
 
+        cursors = this.input.keyboard.createCursorKeys();
+
         this.physics.add.collider(player, platforms);
 
     }
 
     function update ()
     {
-        console.log('update')
+        if (cursors.left.isDown)
+        {
+            player.setVelocityX(-160);
+
+            player.anims.play('left', true);
+        }
+        else if (cursors.right.isDown)
+        {
+            player.setVelocityX(160);
+
+            player.anims.play('right', true);
+        }
+
+        if (cursors.up.isDown)
+        {
+            player.setVelocityY(-180);
+
+            player.anims.play('up', true);
+        }
+        else if (cursors.down.isDown)
+        {
+            player.setVelocityX(0);
+
+            player.anims.play('down', true);
+        }
     }
 
 </script>
