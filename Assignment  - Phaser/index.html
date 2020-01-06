@@ -49,17 +49,17 @@
 
         platforms = this.physics.add.staticGroup();
 
-        platforms.create(300, 650, 'ground2').setScale(0.5,2);
-        platforms.create(200, 480, 'ground').setScale(0.5,0.5);
-        platforms.create(50, 380, 'ground').setScale(0.5,0.5);
-        platforms.create(200, 280, 'ground').setScale(0.5,0.5);
+        platforms.create(300, 650, 'ground2').setScale(0.5,2).refreshBody();
+        platforms.create(200, 480, 'ground').setScale(0.5,0.5).refreshBody();
+        platforms.create(50, 380, 'ground').setScale(0.5,0.5).refreshBody();
+        platforms.create(200, 280, 'ground').setScale(0.5,0.5).refreshBody();
 
-        platforms.create(50, 180, 'ground').setScale(2.2,0.5);
-        platforms.create(482, 300, 'ground2').setScale(0.5,0.6)
-        platforms.create(400, 420, 'ground2').setScale(0.5,0.3)
-        platforms.create(492, 480, 'ground').setScale(0.5,0.5);
-        platforms.create(584, 420, 'ground2').setScale(0.5,0.3)
-        platforms.create(400, 80, 'ground').setScale(0.8,1.5);
+        platforms.create(50, 180, 'ground').setScale(2.2,0.5).refreshBody();
+        platforms.create(482, 300, 'ground2').setScale(0.5,0.6).refreshBody();
+        platforms.create(400, 420, 'ground2').setScale(0.5,0.3).refreshBody();
+        platforms.create(492, 480, 'ground').setScale(0.5,0.5).refreshBody();
+        platforms.create(584, 420, 'ground2').setScale(0.5,0.3).refreshBody();
+        platforms.create(400, 80, 'ground').setScale(0.8,1.5).refreshBody();
 
         player = this.physics.add.sprite(100, 450, 'car').setScale(0.2,0.2);
 
