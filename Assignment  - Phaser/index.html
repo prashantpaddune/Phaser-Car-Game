@@ -33,6 +33,7 @@
         this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('car', 'assets/car.png', { frameWidth: 256, frameHeight: 256 });
+        this.load.audio('song', 'assets/song.mp3')
     }
 
     var player;
@@ -43,11 +44,13 @@
     var score = 0;
     var gameOver = false;
     var scoreText;
-    var scoreText;
 
     function create ()
     {
         this.add.image(400, 300, 'sky');
+
+        let music = this.sound.add('song')
+        music.play();
 
         platforms = this.physics.add.staticGroup();
 
@@ -116,7 +119,6 @@
         bombs = this.physics.add.group();
         bombs = this.physics.add.group();
 
-        //  The score
         scoreText = this.add.text(16, 16, 'score: 0', {
             fontSize: '32px',
             fill: '#000'
@@ -138,16 +140,16 @@
         }
 
         if (cursors.left.isDown) {
-                player.setVelocityX(-460);
-                player.anims.play('left', true);
+            player.setVelocityX(-460);
+            player.anims.play('left', true);
 
         } else if (cursors.right.isDown) {
-                player.setVelocityX(460);
-                player.anims.play('right', true);
+            player.setVelocityX(460);
+            player.anims.play('right', true);
 
         } else if (cursors.down.isDown) {
-                player.setVelocityY(460);
-                player.anims.play('down', true);
+            player.setVelocityY(460);
+            player.anims.play('down', true);
 
         } else if (cursors.up.isDown) {
             player.setVelocityY(-460);
@@ -168,12 +170,10 @@
     function collectStar(player, star) {
         star.disableBody(true, true);
 
-        //  Add and update the score
         score += 10;
         scoreText.setText('Score: ' + score);
 
         if (stars.countActive(true) === 0) {
-            //  A new batch of stars to collect
             stars.children.iterate(function (child) {
 
                 child.enableBody(true, Phaser.Math.Between(0, 800), Phaser.Math.Between(0, 600), true,
