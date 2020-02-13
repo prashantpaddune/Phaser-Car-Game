@@ -35,9 +35,15 @@
         this.load.spritesheet('car', 'assets/car.png', { frameWidth: 256, frameHeight: 256 });
     }
 
-    var platforms;
     var player;
+    var stars;
+    var bombs;
+    var platforms;
     var cursors;
+    var score = 0;
+    var gameOver = false;
+    var scoreText;
+    var scoreText;
 
     function create ()
     {
@@ -89,12 +95,48 @@
 
         cursors = this.input.keyboard.createCursorKeys();
 
+        stars = this.physics.add.group({
+            key: 'star',
+            repeat: 11,
+            setXY: {
+                x: 0,
+                y: 0
+            }
+        });
+
+        stars.children.iterate(function (child) {
+            child.x = Phaser.Math.Between(0, 680);
+            child.y = Phaser.Math.Between(0, 580);
+
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            child.setScale(1.5);
+
+        });
+
+        bombs = this.physics.add.group();
+        bombs = this.physics.add.group();
+
+        //  The score
+        scoreText = this.add.text(16, 16, 'score: 0', {
+            fontSize: '32px',
+            fill: '#000'
+        });
+
         this.physics.add.collider(player, platforms);
+        this.physics.add.collider(stars, platforms);
+        this.physics.add.collider(bombs, platforms);
+
+        this.physics.add.overlap(player, stars, collectStar, null, this);
+
+        this.physics.add.collider(player, bombs, hitBomb, null, this);
 
     }
 
-    function update ()
-    {
+    function update (){
+        if (gameOver) {
+            return;
+        }
+
         if (cursors.left.isDown) {
                 player.setVelocityX(-460);
                 player.anims.play('left', true);
@@ -120,6 +162,59 @@
         if (cursors.up.isDown && player.body.touching.down) {
             player.setVelocityY(0);
         }
+    }
+
+
+    function collectStar(player, star) {
+        star.disableBody(true, true);
+
+        //  Add and update the score
+        score += 10;
+        scoreText.setText('Score: ' + score);
+
+        if (stars.countActive(true) === 0) {
+            //  A new batch of stars to collect
+            stars.children.iterate(function (child) {
+
+                child.enableBody(true, Phaser.Math.Between(0, 800), Phaser.Math.Between(0, 600), true,
+                    true);
+
+            });
+
+            var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+            var bomb = bombs.create(x, 16, 'bomb');
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            bomb.allowGravity = false;
+
+            var y = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+            var bomb = bombs.create(y, 20, 'bomb');
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            bomb.allowGravity = false;
+
+            var z = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+            var bomb = bombs.create(z, 20, 'bomb');
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            bomb.allowGravity = false;
+        }
+    }
+
+    function hitBomb(player, bomb) {
+        this.physics.pause();
+
+        player.setTint(0xff0000);
+
+        player.anims.play('turn');
+
+        gameOver = true;
     }
 
 </script>
